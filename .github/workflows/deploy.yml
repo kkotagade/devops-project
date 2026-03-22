@@ -15,16 +15,17 @@ jobs:
 
     - name: Prepare SSH key
       run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
+        mkdir -p /home/runner/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > /home/runner/.ssh/id_ed25519
+        chmod 600 /home/runner/.ssh/id_ed25519
+        ls -la /home/runner/.ssh   # DEBUG (important)
 
     - name: Copy files to VM
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.VM_HOST }}
         username: ${{ secrets.VM_USER }}
-        key_path: ~/.ssh/id_ed25519
+        key_path: /home/runner/.ssh/id_ed25519
         source: "."
         target: "/home/azureuser/project"
 
@@ -33,7 +34,7 @@ jobs:
       with:
         host: ${{ secrets.VM_HOST }}
         username: ${{ secrets.VM_USER }}
-        key_path: ~/.ssh/id_ed25519
+        key_path: /home/runner/.ssh/id_ed25519
         script: |
           cd /home/azureuser/project
           chmod +x scripts/deploy.sh
