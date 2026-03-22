@@ -20,7 +20,7 @@ jobs:
         username: ${{ secrets.VM_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: "."
-        target: "/home/ubuntu/project"
+        target: "/home/azureuser/project"
 
     - name: Run deployment script
       uses: appleboy/ssh-action@master
@@ -29,6 +29,6 @@ jobs:
         username: ${{ secrets.VM_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          cd /home/ubuntu/project
+          cd /home/azureuser/project
           chmod +x scripts/deploy.sh
           ./scripts/deploy.sh
